@@ -1,6 +1,8 @@
 package com.version1;
 
 import java.io.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
@@ -29,12 +31,25 @@ public class StoreInformation {
         tree.add(s9);
         tree.add(s10);
         tree.add(s11);
-        for (int i=0;i<11;i++) {
-            File file = new File("s" + (i+1) + ".txt");
+        Collections.sort(tree, new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                int res=o1.id-o2.id;
+                int res2=res==0?o1.age-o2.age:res;
+                return res2==0?o1.name.compareTo(o2.name):res2;
+            }
+        });
+        int i=0;
+        for (Student s:tree) {
+
+            File file = new File( (i+1) + ".txt");
             if (!file.exists())
                 file.createNewFile();
+            i++;
             ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(file));
-            obj.writeObject(tree.get(i));
+            obj.writeObject(s);
+
+            obj.close();
         }
     }
 }

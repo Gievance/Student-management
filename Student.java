@@ -41,8 +41,7 @@ public class Student implements Serializable {
     public String toString() {
         return  "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+                ", age=" + age;
     }
 
     @Override
