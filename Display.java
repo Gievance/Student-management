@@ -3,7 +3,7 @@ package com.version1;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Display implements Scanners<Integer> {
+public class Display implements Scanners<Integer>, Clear {
     public Display() throws InterruptedException, IOException, ClassNotFoundException {
         show();
         order(code());
@@ -30,11 +30,11 @@ public class Display implements Scanners<Integer> {
             case 2: {
                 Add add = new Add();
                 add.addstu();
-
-            };
-                break;
-//            case 3:checkStudent();break;
-//            case 4:checkStudent();break;
+            }
+            ;
+            break;
+            case 3:{new Delete().delete();};break;
+            case 4:{new change();};break;
 //            case 5:checkStudent();break;
 //            case 6:checkStudent();break;
 //            case 7:checkStudent();break;
@@ -44,7 +44,7 @@ public class Display implements Scanners<Integer> {
     }
 
 
-    public int code() {//序号输入
+    public int code() throws InterruptedException, IOException, ClassNotFoundException {//序号输入
         int codes = 1;
         boolean flag = true;
 
@@ -56,17 +56,30 @@ public class Display implements Scanners<Integer> {
     }
 
     @Override
-    public Integer scanner() {//键盘输入
+    public Integer scanner() throws InterruptedException, IOException, ClassNotFoundException {//键盘输入
         System.out.print("请输入序号：");
         Scanner scanner = new Scanner(System.in);
-        int code = scanner.nextInt();
-        return Integer.valueOf(code);
+
+        if (scanner.hasNextInt()) {
+            int code = scanner.nextInt();
+            return Integer.valueOf(code);
+        } else {
+            System.out.println("您输入有误！！请重新输入");
+            clear();
+            new Display();
+        }
+        return null;
     }
 
     public boolean check(int code) {//序号检测
-        if (code > 8 || code < 1)
+        if (code > 8 || code < 1) {
+            System.out.println("请输入数字在0 -  8之间");
             return true;
-        else return false;
+        } else return false;
     }
 
+    @Override
+    public void clear() {
+        System.out.println("\n\n\n\n\n\n\n");
+    }
 }

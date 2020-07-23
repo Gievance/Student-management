@@ -1,42 +1,47 @@
 package com.version1;
 
-import java.io.FileInputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
-public class Check implements Scanners {
+public class Check implements Scanners, Clear {
     //实现查看学生信息
     public Check() throws IOException, ClassNotFoundException, InterruptedException {
 
     }
 
+//    public static void main(String[] args) throws IOException, ClassNotFoundException {
+//        sturead();
+//    }
     //返回所有学生对象的列表
     public  LinkedList<Student> sturead() throws IOException, ClassNotFoundException {
         Path path = Paths.get("S:\\PROJECT");
-        LinkedList<Path> arr = new LinkedList<>();//存放学生路径
+        LinkedList<File> arr = new LinkedList<>();//存放学生路径
         String glob = "glob:**/*.txt";
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher(glob);
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (pathMatcher.matches(file))
-                    arr.add(file);
+                    arr.add(file.toFile());
                 return FileVisitResult.CONTINUE;
             }
         });
-        LinkedList<Student> students = new LinkedList<>();
-        for (Path p : arr) {
+//        System.out.println(arr);
+//        System.out.println(arr.size());
 
-            ObjectInputStream obj = new ObjectInputStream(new FileInputStream(p.toFile()));
+        LinkedList<Student> students = new LinkedList<>();
+        for (File p:arr){
+//            System.out.println(arr.get(i));
+            ObjectInputStream obj = new ObjectInputStream(new FileInputStream(p));
+//            System.out.println(arr.get(i).toFile());
             Object o = obj.readObject();
             Student s = (Student) o;
             students.add(s);
             obj.close();
         }
+
         Collections.sort(students, new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
@@ -61,14 +66,19 @@ public class Check implements Scanners {
     public void check(String c) throws IOException, ClassNotFoundException, InterruptedException {
         switch (c) {
             case "Y": {
+                clear();
                 show10(sturead());
             }
             ;
             break;
-            case "N":
+            case "N": {
+                clear();
                 new Display();
-                break;
+            }
+            ;
+            break;
             default: {
+                clear();
                 System.out.println("请重新输入");
                 check(scanner());
             }
@@ -83,5 +93,10 @@ public class Check implements Scanners {
         Scanner scanner = new Scanner(System.in);
         String next = scanner.next();
         return next;
+    }
+
+    @Override
+    public void clear() {
+        System.out.println("\n\n\n\n\n\n\n");
     }
 }
