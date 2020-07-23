@@ -8,14 +8,14 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
-public class Check {
+public class Check implements Scanners {
     //实现查看学生信息
     public Check() throws IOException, ClassNotFoundException, InterruptedException {
-        show10(sturead());
+
     }
 
     //返回所有学生对象的列表
-    public static LinkedList<Student> sturead() throws IOException, ClassNotFoundException {
+    public  LinkedList<Student> sturead() throws IOException, ClassNotFoundException {
         Path path = Paths.get("S:\\PROJECT");
         LinkedList<Path> arr = new LinkedList<>();//存放学生路径
         String glob = "glob:**/*.txt";
@@ -51,8 +51,7 @@ public class Check {
 
     //展示
     public void show10(LinkedList<Student> arr) throws InterruptedException, IOException, ClassNotFoundException {
-        for(Student s:arr)
-        {
+        for (Student s : arr) {
             System.out.println(s);
         }
         check(scanner());
@@ -63,7 +62,8 @@ public class Check {
         switch (c) {
             case "Y": {
                 show10(sturead());
-            };
+            }
+            ;
             break;
             case "N":
                 new Display();
@@ -77,6 +77,7 @@ public class Check {
         }
     }
 
+    @Override
     public String scanner() {
         System.out.println("是否继续查看？ 是=Y,不是=N");
         Scanner scanner = new Scanner(System.in);
