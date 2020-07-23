@@ -10,9 +10,8 @@ import java.util.*;
 
 public class Check {
     //实现查看学生信息
-    private int page=0;
     public Check() throws IOException, ClassNotFoundException, InterruptedException {
-        show10(sturead(),page);
+        show10(sturead());
     }
 
     //返回所有学生对象的列表
@@ -51,22 +50,19 @@ public class Check {
     }
 
     //展示
-    public void show10(LinkedList<Student> arr, int page) throws InterruptedException, IOException, ClassNotFoundException {
-        Object[] array = arr.toArray();
-        int pages=array.length/10;
-        int con=array.length%10;
-        int mul=page*10;
-        for (int i=mul;i<(array.length-(mul)<10?con+(mul):i+10);i++)
-            System.out.println((Student)array[i]);
-        if (page==(pages+(con>0?1:0)))
-            page=0;
+    public void show10(LinkedList<Student> arr) throws InterruptedException, IOException, ClassNotFoundException {
+        for(Student s:arr)
+        {
+            System.out.println(s);
+        }
+        check(scanner());
     }
 
 
     public void check(String c) throws IOException, ClassNotFoundException, InterruptedException {
         switch (c) {
             case "Y": {
-                show10(sturead(),page++);
+                show10(sturead());
             };
             break;
             case "N":
