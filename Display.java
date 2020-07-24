@@ -17,6 +17,7 @@ public class Display implements Scanners<Integer>, Clear {
         System.out.println("|5、查询学生信息");
         System.out.println("|6、排序学生信息");
         System.out.println("|7、随机点名器");
+        System.out.println("|8、退出学生管理系统");
     }
 
     public void order(int sequence) throws InterruptedException, IOException, ClassNotFoundException {//根据序号进行进行
@@ -38,7 +39,7 @@ public class Display implements Scanners<Integer>, Clear {
             case 5:new Search();break;
             case 6:new Sort();break;
             case 7:new Order();break;
-
+            case 8:System.exit(0);break;
         }
 
     }
@@ -47,9 +48,8 @@ public class Display implements Scanners<Integer>, Clear {
     public int code() throws InterruptedException, IOException, ClassNotFoundException {//序号输入
         int codes = 1;
         boolean flag = true;
-
         while (flag) {
-            codes = scanner();
+            codes=scanner();
             flag = check(codes);
         }
         return codes;
@@ -62,18 +62,19 @@ public class Display implements Scanners<Integer>, Clear {
 
         if (scanner.hasNextInt()) {
             return scanner.nextInt();
-
         } else {
             System.out.println("您输入有误！！请重新输入");
-            clear();
-            new Display();
+
+            order(code());
         }
         return 0;
     }
 
     public boolean check(int code) {//序号检测
-        if (code > 8 || code < 1) {
+        if (code > 9 || code < 1) {
+            clear();
             System.out.println("请输入数字在0 -  8之间");
+
             return true;
         } else return false;
     }
