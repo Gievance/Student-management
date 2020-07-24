@@ -5,9 +5,9 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
-public class Check implements Scanners, Clear {
+public class Check implements Clear,Scanners<String>{
     //实现查看学生信息
-    public Check() throws IOException, ClassNotFoundException, InterruptedException {
+    public Check() {
 
     }
 
@@ -22,7 +22,7 @@ public class Check implements Scanners, Clear {
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher(glob);
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs){
                 if (pathMatcher.matches(file))
                     arr.add(file.toFile());
                 return FileVisitResult.CONTINUE;
@@ -42,18 +42,17 @@ public class Check implements Scanners, Clear {
             obj.close();
         }
 
-        Collections.sort(students, new Comparator<Student>() {
-            @Override
-            public int compare(Student o1, Student o2) {
+
+        return sort(students);
+    }
+    //将排序分离出来
+    public LinkedList<Student> sort(LinkedList<Student> t){
+        t.sort((o1,o2)->{
                 int res = o1.id - o2.id;
                 int res2 = res == 0 ? o1.age - o2.age : res;
-                int res3 = res2 == 0 ? o1.name.compareTo(o2.name) : res2;
-                return res3;
-            }
-        });
-        return students;
+                return res2 == 0 ? o1.name.compareTo(o2.name) : res2;});
+       return t;
     }
-
     //展示
     public void show10(LinkedList<Student> arr) throws InterruptedException, IOException, ClassNotFoundException {
         for (Student s : arr) {
@@ -69,20 +68,20 @@ public class Check implements Scanners, Clear {
                 clear();
                 show10(sturead());
             }
-            ;
+
             break;
             case "N": {
                 clear();
                 new Display();
             }
-            ;
+
             break;
             default: {
                 clear();
                 System.out.println("请重新输入");
                 check(scanner());
             }
-            ;
+
             break;
         }
     }
@@ -91,8 +90,8 @@ public class Check implements Scanners, Clear {
     public String scanner() {
         System.out.println("是否继续查看？ 是=Y,不是=N");
         Scanner scanner = new Scanner(System.in);
-        String next = scanner.next();
-        return next;
+        return scanner.next();
+
     }
 
     @Override

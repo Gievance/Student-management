@@ -25,19 +25,19 @@ public class Display implements Scanners<Integer>, Clear {
                 Check check = new Check();
                 check.show10(check.sturead());
             }
-            ;
+
             break;
             case 2: {
                 Add add = new Add();
                 add.addstu();
             }
-            ;
+
             break;
-            case 3:{new Delete().delete();};break;
-            case 4:{new change();};break;
-//            case 5:checkStudent();break;
-//            case 6:checkStudent();break;
-//            case 7:checkStudent();break;
+            case 3:{new Delete().delete();}break;
+            case 4:{new change();}break;
+            case 5:new Search();break;
+            case 6:new Sort();break;
+            case 7:new Order();break;
 
         }
 
@@ -61,14 +61,14 @@ public class Display implements Scanners<Integer>, Clear {
         Scanner scanner = new Scanner(System.in);
 
         if (scanner.hasNextInt()) {
-            int code = scanner.nextInt();
-            return Integer.valueOf(code);
+            return scanner.nextInt();
+
         } else {
             System.out.println("您输入有误！！请重新输入");
             clear();
             new Display();
         }
-        return null;
+        return 0;
     }
 
     public boolean check(int code) {//序号检测
